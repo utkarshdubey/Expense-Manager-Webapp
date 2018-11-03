@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>index</title>
+  <style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td,
+    th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+  </style>
+</head>
+
+<body>
+  Your Expenses:-
+  <table>
+    <tr>
+      <th>Amount</th>
+      <th>Title</th>
+      <th>Action</th>
+    </tr>
+    {% for list_item in lists %}
+    <tr>
+      <td>${{ list_item.amount }}</td>
+      <td>{{ list_item.title }}</td>
+      <td>
+        <form action="/app/delete-item/{{ list_item.id }}">
+          <input type="submit" value="delete">
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+
+  </table>
+  <br>
+  <br>
+  <br>
+  <br>
+  {% if total.amount__sum %}
+  <h1>Total: ${{ total.amount__sum }}</h1>
+  {% else %}
+  <h1>Total: $0</h1>
+  {% endif %}
+  <br>
+  <br>
+  <br>
+  <br>
+  <form action="/app/add-item/" method="post">
+    {% csrf_token %}
+    <input type="number" name="amount" min="0" placeholder="Amount">
+    <input type="text" name="title" placeholder="Title">
+    <input type="submit" value="Create">
+  </form>
+</body>
+
+</html>
